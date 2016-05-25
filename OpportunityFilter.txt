@@ -1,0 +1,91 @@
+<skuidpage unsavedchangeswarning="yes" personalizationmode="server" showsidebar="true" showheader="true" tabtooverride="Opportunity">
+   <models>
+      <model id="Opportunity" limit="100" query="true" createrowifnonefound="false" sobject="Opportunity" adapter="" type="" doclone="">
+         <fields>
+            <field id="Name" overridemetadata="false" ogdisplaytype="STRING" displaytype="STRING"/>
+            <field id="CreatedDate"/>
+            <field id="AccountId"/>
+            <field id="StageName"/>
+            <field id="Amount"/>
+            <field id="ExpectedRevenue"/>
+            <field id="Account.Name"/>
+            <field id="CloseDate"/>
+            <field id="Description"/>
+         </fields>
+         <conditions>
+            <condition type="fieldvalue" value="" enclosevalueinquotes="true" field="Name" operator="=" state="filterableoff" inactive="true" name="Name"/>
+            <condition type="fieldvalue" field="StageName" operator="=" inactive="true" enclosevalueinquotes="true" name="__autofilter__StageName" state="filterableoff" value=""/>
+            <condition type="fieldvalue" field="CloseDate" operator="gte" inactive="true" enclosevalueinquotes="false" name="__autofilter__start__CloseDate" state="filterableoff" value=""/>
+            <condition type="fieldvalue" field="CloseDate" operator="lte" inactive="true" enclosevalueinquotes="false" name="__autofilter__end__CloseDate" state="filterableoff" value=""/>
+         </conditions>
+         <actions/>
+      </model>
+      <model id="OpportunityAggregate" limit="100" query="true" createrowifnonefound="false" sobject="Opportunity" adapter="" type="aggregate" orderby="COUNT(Id) DESC">
+         <fields>
+            <field id="Id" name="countId" function="COUNT"/>
+         </fields>
+         <conditions/>
+         <actions/>
+         <groupby method="simple">
+            <field id="Name" name="aggregateName"/>
+         </groupby>
+      </model>
+   </models>
+   <components>
+      <pagetitle model="Opportunity" uniqueid="sk-1HQn47-62">
+         <maintitle>
+            <template>{{Model.labelPlural}}</template>
+         </maintitle>
+         <subtitle>
+            <template>Home</template>
+         </subtitle>
+         <actions>
+            <action type="savecancel"/>
+         </actions>
+      </pagetitle>
+      <skootable showconditions="true" showsavecancel="false" searchmethod="server" searchbox="true" showexportbuttons="false" pagesize="10" createrecords="true" model="Opportunity" mode="read" uniqueid="sk-1HQn48-63" instantfilters="true" emptysearchbehavior="query" tokenizesearch="true">
+         <fields>
+            <field id="CreatedDate" allowordering="true" valuehalign="" type=""/>
+            <field id="CloseDate"/>
+            <field id="Name" allowordering="true" valuehalign="" type=""/>
+            <field id="StageName" valuehalign="" type=""/>
+            <field id="Amount" decimalplaces="" valuehalign="" type=""/>
+            <field id="ExpectedRevenue" decimalplaces="" valuehalign="" type=""/>
+            <field id="Account.Name"/>
+            <field id="Description"/>
+         </fields>
+         <rowactions>
+            <action type="edit"/>
+            <action type="delete"/>
+         </rowactions>
+         <massactions usefirstitemasdefault="true">
+            <action type="massupdate"/>
+            <action type="massdelete"/>
+         </massactions>
+         <views>
+            <view type="standard"/>
+         </views>
+         <filters>
+            <filter type="select" filteroffoptionlabel="All names" createfilteroffoption="true" affectcookies="true" autocompthreshold="200" conditionsource="manual" labelmode="no" condition="Name">
+               <sources>
+                  <source type="model" effectsbehavior="justdefault" model="OpportunityAggregate">
+                     <labeltemplate>{{{aggregateName}}} ({{countId}})</labeltemplate>
+                     <valuetemplate>{{aggregateName}}</valuetemplate>
+                  </source>
+               </sources>
+            </filter>
+            <filter type="select" filteroffoptionlabel="All stages" createfilteroffoption="true" affectcookies="true" autocompthreshold="25" conditionsource="auto" conditionfield="StageName" labelmode="no"/>
+            <filter type="daterange" filteroffoptionlabel="New Filter" createfilteroffoption="true" affectcookies="true" autocompthreshold="25" conditionsource="auto" labelmode="auto" conditionfield="CloseDate" label=""/>
+         </filters>
+         <searchfields usesosl="true" soslfields="All Fields"/>
+      </skootable>
+   </components>
+   <resources>
+      <labels/>
+      <css/>
+      <javascript/>
+   </resources>
+   <styles>
+      <styleitem type="background" bgtype="none"/>
+   </styles>
+</skuidpage>

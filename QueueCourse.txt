@@ -1,0 +1,46 @@
+<skuidpage unsavedchangeswarning="yes" personalizationmode="server" showsidebar="true" showheader="true">
+   <models>
+      <model id="AccountQueue" limit="20" query="true" createrowifnonefound="false" adapter="" type="" sobject="Account">
+         <fields>
+            <field id="Id"/>
+            <field id="Name"/>
+         </fields>
+         <conditions>
+            <condition type="fieldvalue" field="Type" operator="=" inactive="true" enclosevalueinquotes="true" name="__autofilter__Type" state="filterableoff" value=""/>
+         </conditions>
+         <actions/>
+      </model>
+   </models>
+   <components>
+      <panelset type="standard" uniqueid="sk-1DNbFQ-55" scroll="">
+         <panels>
+            <panel type="left" width="225px">
+               <components>
+                  <queue tagrendertype="template" querystring="Id={{Id}}" defaultitemparameter="id" clickactiontype="updatepanel" searchbox="true" tokenizesearch="true" model="AccountQueue" uniqueid="sk-1DOKAp-115" pagename="RelatedContacts" module="" actionpanel="sk-1DOD1P-108" title="Account queue" searchmethod="server" itemicon="sk-icon-account-profile">
+                     <rendertemplate>{{{Name}}}</rendertemplate>
+                     <searchfields/>
+                     <renderconditions logictype="and"/>
+                     <filters>
+                        <filter type="select" filteroffoptionlabel="filter type" createfilteroffoption="true" affectcookies="true" autocompthreshold="25" conditionsource="auto" labelmode="auto" conditionfield="Type"/>
+                     </filters>
+                  </queue>
+               </components>
+            </panel>
+            <panel>
+               <components>
+                  <includepanel type="skuid" uniqueid="sk-1DOD1P-108" lazyload="true" pagename="" module=""/>
+               </components>
+            </panel>
+         </panels>
+         <renderconditions logictype="and"/>
+      </panelset>
+   </components>
+   <resources>
+      <labels/>
+      <javascript/>
+      <css/>
+   </resources>
+   <styles>
+      <styleitem type="background" bgtype="none"/>
+   </styles>
+</skuidpage>

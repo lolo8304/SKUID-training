@@ -1,0 +1,34 @@
+<skuidpage unsavedchangeswarning="yes" personalizationmode="server" showsidebar="true" showheader="true">
+   <models>
+      <model id="AXAGlassValuables" limit="20" query="true" createrowifnonefound="false" adapter="REST" processonclient="true" service="AXA-Glass" type="" verb="GET" endpoint="/digital-account/valuables/xuxzZIj2sz/coverages">
+         <fields>
+            <field id="id" label="Id" ispolymorphic="false" isnamepointing="false" displaytype="TEXT" accessible="true" filterable="true"/>
+            <field id="risk.code" label="Code" ispolymorphic="false" isnamepointing="false" displaytype="STRING" accessible="true" filterable="true"/>
+            <field id="risk.deductible" label="Deductible" ispolymorphic="false" isnamepointing="false" displaytype="DOUBLE" precision="3" scale="0" accessible="true" filterable="true"/>
+         </fields>
+         <conditions/>
+         <actions/>
+      </model>
+   </models>
+   <components>
+      <basicfieldeditor showheader="true" showsavecancel="true" showerrorsinline="true" model="AXAGlassValuables" buttonposition="" uniqueid="sk-1IeE7o-105" mode="read">
+         <columns>
+            <column width="100%">
+               <sections>
+                  <section title="{{risk.code}}" collapsible="collapsed">
+                     <fields/>
+                  </section>
+               </sections>
+            </column>
+         </columns>
+      </basicfieldeditor>
+   </components>
+   <resources>
+      <labels/>
+      <javascript/>
+      <css/>
+   </resources>
+   <styles>
+      <styleitem type="background" bgtype="none"/>
+   </styles>
+</skuidpage>

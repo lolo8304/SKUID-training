@@ -1,0 +1,167 @@
+<skuidpage unsavedchangeswarning="yes" personalizationmode="server" showsidebar="true" showheader="true">
+   <models>
+      <model id="Account" limit="1" query="false" createrowifnonefound="true" adapter="" type="" sobject="Account">
+         <fields>
+            <field id="CanAddPhone" uionly="true" displaytype="BOOLEAN" defaultValue="false" label="Phone?"/>
+            <field id="Phone"/>
+            <field id="Name"/>
+            <field id="Description"/>
+            <field id="BillingCity"/>
+            <field id="BillingCountry"/>
+            <field id="BillingState"/>
+            <field id="BillingStreet"/>
+            <field id="BillingPostalCode"/>
+            <field id="CanAddBilling" uionly="true" displaytype="BOOLEAN" label="Billing?"/>
+         </fields>
+         <conditions/>
+         <actions/>
+      </model>
+      <model id="AccountTest" limit="" query="true" createrowifnonefound="false" adapter="" type="" sobject="Account">
+         <fields>
+            <field id="CanAddPhone" uionly="true" displaytype="BOOLEAN" defaultValue="false" label="Phone?"/>
+            <field id="Phone"/>
+            <field id="Name"/>
+            <field id="Description"/>
+            <field id="BillingAddress"/>
+            <field id="BillingCity"/>
+            <field id="BillingCountry"/>
+            <field id="BillingState"/>
+            <field id="BillingStreet"/>
+            <field id="BillingPostalCode"/>
+            <field id="CanAddBilling" uionly="true" displaytype="BOOLEAN" label="Billing?"/>
+         </fields>
+         <conditions/>
+         <actions/>
+      </model>
+   </models>
+   <components>
+      <pagetitle model="Account" uniqueid="sk-1DsJoP-136">
+         <maintitle>
+            <template>{{Name}}</template>
+         </maintitle>
+         <subtitle>
+            <template>{{Model.label}}</template>
+         </subtitle>
+         <actions>
+            <action type="multi" label="Save and New" icon="sk-icon-save">
+               <actions>
+                  <action type="save">
+                     <models>
+                        <model>Account</model>
+                     </models>
+                  </action>
+                  <action type="requeryModel" model="AccountTest" behavior="standard"/>
+                  <action type="emptyModelData">
+                     <models>
+                        <model>Account</model>
+                     </models>
+                  </action>
+                  <action type="createRow" model="Account" appendorprepend="prepend" defaultmodefornewitems="edit"/>
+               </actions>
+            </action>
+            <action type="multi" label="Cancel">
+               <actions>
+                  <action type="cancel">
+                     <models>
+                        <model>Account</model>
+                     </models>
+                  </action>
+                  <action type="createRow" model="Account" appendorprepend="prepend" defaultmodefornewitems="edit">
+                     <models>
+                        <model>Account</model>
+                     </models>
+                  </action>
+               </actions>
+            </action>
+         </actions>
+      </pagetitle>
+      <basicfieldeditor showheader="true" showsavecancel="false" showerrorsinline="true" model="Account" buttonposition="" uniqueid="sk-1DsLpe-139" mode="edit">
+         <columns>
+            <column width="100%">
+               <sections>
+                  <section title="New Account" collapsible="no">
+                     <fields>
+                        <field id="Name" valuehalign="" type=""/>
+                        <field id="Description" valuehalign="" type=""/>
+                        <field id="CanAddPhone" valuehalign="" type=""/>
+                        <field id="CanAddBilling" valuehalign="" type=""/>
+                        <field id="Phone" showhelp="true" valuehalign="" type="">
+                           <renderconditions logictype="and" onhidedatabehavior="cancel">
+                              <rendercondition type="fieldvalue" enclosevalueinquotes="false" fieldmodel="Account" sourcetype="fieldvalue" sourceproperty="hasRows" operator="=" field="CanAddPhone" value="true"/>
+                           </renderconditions>
+                           <enableconditions logictype="and"/>
+                        </field>
+                     </fields>
+                  </section>
+               </sections>
+            </column>
+         </columns>
+      </basicfieldeditor>
+      <basicfieldeditor showheader="true" showsavecancel="false" showerrorsinline="true" model="Account" buttonposition="" uniqueid="sk-1Dtm7r-301" mode="edit" layout="">
+         <columns>
+            <column width="100%">
+               <sections>
+                  <section title="Billing address" collapsible="no">
+                     <fields>
+                        <field id="BillingStreet" valuehalign="" type="">
+                           <renderconditions logictype="and" onhidedatabehavior="cancel">
+                              <rendercondition type="fieldvalue" operator="=" enclosevalueinquotes="false" fieldmodel="Account" sourcetype="fieldvalue" field="CanAddBilling" value="true"/>
+                           </renderconditions>
+                           <enableconditions/>
+                        </field>
+                        <field id="BillingPostalCode" valuehalign="" type="">
+                           <renderconditions logictype="and" onhidedatabehavior="cancel">
+                              <rendercondition type="fieldvalue" operator="=" enclosevalueinquotes="false" fieldmodel="Account" sourcetype="fieldvalue" field="CanAddBilling" value="true"/>
+                           </renderconditions>
+                           <enableconditions/>
+                        </field>
+                        <field id="BillingCity" valuehalign="" type="">
+                           <renderconditions logictype="and" onhidedatabehavior="cancel">
+                              <rendercondition type="fieldvalue" operator="=" enclosevalueinquotes="false" fieldmodel="Account" sourcetype="fieldvalue" field="CanAddBilling" value="true"/>
+                           </renderconditions>
+                           <enableconditions/>
+                        </field>
+                        <field id="BillingState" valuehalign="" type="">
+                           <renderconditions logictype="and" onhidedatabehavior="cancel">
+                              <rendercondition type="fieldvalue" operator="=" enclosevalueinquotes="false" fieldmodel="Account" sourcetype="fieldvalue" field="CanAddBilling" value="true"/>
+                           </renderconditions>
+                           <enableconditions/>
+                        </field>
+                        <field id="BillingCountry" valuehalign="" type="">
+                           <renderconditions logictype="and" onhidedatabehavior="cancel">
+                              <rendercondition type="fieldvalue" operator="=" enclosevalueinquotes="false" fieldmodel="Account" sourcetype="fieldvalue" field="CanAddBilling" value="true"/>
+                           </renderconditions>
+                           <enableconditions/>
+                        </field>
+                     </fields>
+                     <renderconditions logictype="and"/>
+                  </section>
+               </sections>
+            </column>
+         </columns>
+         <renderconditions logictype="and">
+            <rendercondition type="fieldvalue" operator="=" enclosevalueinquotes="false" fieldmodel="Account" sourcetype="fieldvalue" nosourcerowbehavior="skipandnorender" field="CanAddBilling" value="true"/>
+         </renderconditions>
+      </basicfieldeditor>
+      <skootable showconditions="true" showsavecancel="false" showerrorsinline="true" searchmethod="server" searchbox="true" showexportbuttons="false" pagesize="10" createrecords="false" model="AccountTest" buttonposition="" mode="readonly" uniqueid="sk-1Dsgr7-188">
+         <fields>
+            <field id="Name"/>
+            <field id="Phone"/>
+            <field id="Description"/>
+         </fields>
+         <rowactions/>
+         <massactions usefirstitemasdefault="true"/>
+         <views>
+            <view type="standard"/>
+         </views>
+      </skootable>
+   </components>
+   <resources>
+      <labels/>
+      <javascript/>
+      <css/>
+   </resources>
+   <styles>
+      <styleitem type="background" bgtype="none"/>
+   </styles>
+</skuidpage>

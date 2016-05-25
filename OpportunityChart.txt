@@ -1,0 +1,46 @@
+<skuidpage unsavedchangeswarning="yes" personalizationmode="server" showsidebar="true" showheader="true">
+   <models>
+      <model id="OpportunityCharts" limit="" query="true" createrowifnonefound="false" adapter="" type="" sobject="Opportunity">
+         <fields>
+            <field id="Name"/>
+            <field id="StageName"/>
+            <field id="Amount" overridemetadata="false" ogdisplaytype="CURRENCY" displaytype="CURRENCY" precision="" scale=""/>
+            <field id="Account.BillingCountry"/>
+            <field id="Account.BillingState"/>
+            <field id="CloseDate"/>
+         </fields>
+         <conditions/>
+         <actions/>
+      </model>
+   </models>
+   <components>
+      <skuidvis__chart model="OpportunityCharts" maintitle="{{Model.labelPlural}}" type="column" uniqueid="sk-1DgTeD-88">
+         <dataaxes>
+            <axis id="amount" title="Amount"/>
+         </dataaxes>
+         <categoryaxes>
+            <axis id="categories" categorytype="field" field="CloseDate" title="Close dates" fillvals="true" dategranularity="calyear">
+               <allowedgranularities>
+                  <type>calmonth</type>
+                  <type>calquarter</type>
+               </allowedgranularities>
+            </axis>
+         </categoryaxes>
+         <serieslist>
+            <series valuefield="Amount" splittype="field" aggfunction="sum" splitfield="StageName"/>
+         </serieslist>
+         <colors/>
+         <legend layout="horizontal" halign="center" valign="bottom"/>
+         <renderconditions logictype="and"/>
+         <allowedtypes/>
+      </skuidvis__chart>
+   </components>
+   <resources>
+      <labels/>
+      <javascript/>
+      <css/>
+   </resources>
+   <styles>
+      <styleitem type="background" bgtype="none"/>
+   </styles>
+</skuidpage>

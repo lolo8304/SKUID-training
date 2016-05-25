@@ -1,0 +1,193 @@
+<skuidpage unsavedchangeswarning="yes" personalizationmode="server" showsidebar="true" showheader="true">
+   <models>
+      <model id="NewRelatedContact" limit="1" query="false" createrowifnonefound="false" adapter="" type="" sobject="Contact">
+         <fields>
+            <field id="FirstName"/>
+            <field id="LastName"/>
+            <field id="Email"/>
+            <field id="AccountId"/>
+            <field id="Account.Name"/>
+         </fields>
+         <conditions>
+            <condition type="modelmerge" value="" field="AccountId" operator="=" model="NewAccount" enclosevalueinquotes="true" mergefield="Id" novaluebehavior="deactivate"/>
+         </conditions>
+         <actions/>
+      </model>
+      <model id="NewAccount" limit="1" query="false" createrowifnonefound="true" adapter="" type="" sobject="Account" doclone="">
+         <fields>
+            <field id="Description"/>
+            <field id="Name"/>
+            <field id="Phone"/>
+            <field id="Id"/>
+         </fields>
+         <conditions/>
+         <actions/>
+      </model>
+      <model id="AccountList" limit="20" query="true" createrowifnonefound="false" adapter="" type="" sobject="Account" orderby="LastModifiedDate DESC">
+         <fields>
+            <field id="LastModifiedDate"/>
+            <field id="Id"/>
+            <field id="Name"/>
+         </fields>
+         <conditions/>
+         <actions/>
+      </model>
+   </models>
+   <components>
+      <wizard deferstepcontentsrendering="false" uniqueid="sk-1DErVG-58">
+         <steps>
+            <step stepid="NewAccountStep" steplabel="New Account Step">
+               <components>
+                  <basicfieldeditor showheader="true" showsavecancel="false" showerrorsinline="true" model="NewAccount" buttonposition="" uniqueid="sk-1DFiep-153" mode="edit">
+                     <columns>
+                        <column width="100%">
+                           <sections>
+                              <section title="New Account details" collapsible="no" showheader="true">
+                                 <fields>
+                                    <field id="Id" valuehalign="" type="">
+                                       <renderconditions logictype="and" onhidedatabehavior="keep">
+                                          <rendercondition fieldmodel="NewAccount" sourcetype="rowproperty" nosourcerowbehavior="deactivate" sourceproperty="isSaved" enclosevalueinquotes="false"/>
+                                       </renderconditions>
+                                       <enableconditions/>
+                                    </field>
+                                    <field id="Name"/>
+                                    <field id="Phone"/>
+                                    <field id="Description"/>
+                                 </fields>
+                              </section>
+                           </sections>
+                        </column>
+                     </columns>
+                  </basicfieldeditor>
+               </components>
+               <actions>
+                  <action uniqueid="sk-1DErVE-55" type="multi" stepid="step2" label="Next Step" icon="sk-icon-arrow-right" window="self">
+                     <renderconditions logictype="and"/>
+                     <enableconditions/>
+                     <hotkeys/>
+                     <actions>
+                        <action type="save">
+                           <models>
+                              <model>NewAccount</model>
+                           </models>
+                        </action>
+                        <action type="createRow" model="NewRelatedContact" appendorprepend="prepend" defaultmodefornewitems="edit"/>
+                        <action type="navigateToStep" stepid="NewContactStep"/>
+                        <action type="requeryModel" model="AccountList" behavior="standard"/>
+                     </actions>
+                  </action>
+               </actions>
+            </step>
+            <step stepid="NewContactStep" steplabel="New Contact">
+               <components>
+                  <basicfieldeditor showheader="true" showsavecancel="false" showerrorsinline="true" model="NewRelatedContact" buttonposition="" uniqueid="sk-1DGmXE-267" mode="edit">
+                     <columns>
+                        <column width="100%">
+                           <sections>
+                              <section title="New Contact details" collapsible="no" showheader="true">
+                                 <fields>
+                                    <field id="AccountId" valuehalign="" type="" readonly="true">
+                                       <renderconditions logictype="and" onhidedatabehavior="keep"/>
+                                       <enableconditions/>
+                                    </field>
+                                    <field id="FirstName"/>
+                                    <field id="LastName"/>
+                                    <field id="Email"/>
+                                 </fields>
+                              </section>
+                           </sections>
+                        </column>
+                     </columns>
+                  </basicfieldeditor>
+               </components>
+               <actions>
+                  <action uniqueid="sk-1DErVF-56" type="multi" stepid="NewAccountStep" label="Back" icon="sk-icon-arrow-left" window="self">
+                     <actions>
+                        <action type="cancel">
+                           <models>
+                              <model>NewRelatedContact</model>
+                           </models>
+                        </action>
+                        <action type="navigateToStep" stepid="NewAccountStep"/>
+                     </actions>
+                  </action>
+                  <action type="multi" label="Save" stepid="step1" window="self" icon="sk-icon-save">
+                     <actions>
+                        <action type="save">
+                           <models>
+                              <model>NewRelatedContact</model>
+                           </models>
+                        </action>
+                        <action type="redirect" window="self" url="/apex/UI?id={{$Model.NewAccount.data.0.Id}}&amp;sfdc.override=1&amp;actiontype=View&amp;objecttype=Account"/>
+                     </actions>
+                  </action>
+                  <action type="multi" label="Cancel" stepid="step1" window="self">
+                     <actions>
+                        <action type="cancel">
+                           <models>
+                              <model>NewRelatedContact</model>
+                           </models>
+                        </action>
+                        <action type="markRowsForDeletion" model="NewAccount">
+                           <models>
+                              <model>NewAccount</model>
+                           </models>
+                        </action>
+                        <action type="save">
+                           <models>
+                              <model>NewAccount</model>
+                           </models>
+                        </action>
+                        <action type="requeryModel" model="AccountList" behavior="standard"/>
+                        <action type="navigateToStep" stepid="NewAccountStep"/>
+                        <action type="createRow" model="NewAccount" appendorprepend="prepend" defaultmodefornewitems="edit"/>
+                     </actions>
+                  </action>
+               </actions>
+            </step>
+         </steps>
+         <renderconditions logictype="and"/>
+      </wizard>
+      <wrapper uniqueid="sk-1HPBB4-352">
+         <components/>
+         <styles>
+            <styleitem type="background" bgtype="none"/>
+            <styleitem type="border" borders="top," padding="top,">
+               <styles>
+                  <styleitem property="border-top" value="3px solid black"/>
+                  <styleitem property="padding-top" value="0px"/>
+                  <styleitem property="box-sizing" value="border-box"/>
+               </styles>
+            </styleitem>
+            <styleitem type="size"/>
+         </styles>
+         <renderconditions logictype="and"/>
+      </wrapper>
+      <pagetitle model="AccountList" uniqueid="sk-1HOrn9-318">
+         <maintitle>Debug {{Name}}</maintitle>
+         <actions/>
+      </pagetitle>
+      <skootable showconditions="true" showsavecancel="false" showerrorsinline="true" searchmethod="server" searchbox="false" showexportbuttons="false" pagesize="10" createrecords="false" model="AccountList" buttonposition="" mode="readonly" uniqueid="sk-1HKR7c-159" instantfilters="true" emptysearchbehavior="query">
+         <fields>
+            <field id="Id"/>
+            <field id="Name"/>
+            <field id="LastModifiedDate"/>
+         </fields>
+         <rowactions/>
+         <massactions usefirstitemasdefault="true"/>
+         <views>
+            <view type="standard"/>
+         </views>
+         <searchfields/>
+         <renderconditions logictype="and"/>
+      </skootable>
+   </components>
+   <resources>
+      <labels/>
+      <javascript/>
+      <css/>
+   </resources>
+   <styles>
+      <styleitem type="background" bgtype="none"/>
+   </styles>
+</skuidpage>

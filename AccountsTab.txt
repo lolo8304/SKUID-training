@@ -1,0 +1,200 @@
+<skuidpage unsavedchangeswarning="yes" personalizationmode="server" showsidebar="true" showheader="true">
+   <models>
+      <model id="AccountList" limit="4" query="true" createrowifnonefound="false" adapter="" type="" sobject="Account" orderby="CreatedDate DESC">
+         <fields>
+            <field id="Description"/>
+            <field id="Name"/>
+            <field id="Id"/>
+            <field id="Phone"/>
+            <field id="CreatedById"/>
+            <field id="CreatedBy.Name"/>
+            <field id="CreatedDate"/>
+            <field id="NumberOfEmployees"/>
+            <field id="BillingLongitude"/>
+            <field id="BillingLatitude"/>
+            <field id="Contacts" type="childRelationship" limit="10"/>
+         </fields>
+         <conditions>
+            <condition type="fieldvalue" field="Type" operator="=" inactive="true" enclosevalueinquotes="true" name="__autofilter__Type" state="filterableoff" value=""/>
+         </conditions>
+         <actions/>
+      </model>
+      <model id="Contact" limit="20" query="false" createrowifnonefound="false" adapter="" type="" sobject="Contact">
+         <fields>
+            <field id="AccountId"/>
+            <field id="Account.Name"/>
+            <field id="FirstName"/>
+            <field id="LastName"/>
+            <field id="Birthdate"/>
+            <field id="Email"/>
+         </fields>
+         <conditions>
+            <condition type="fieldvalue" value="" enclosevalueinquotes="true" field="AccountId" state="filterableoff" inactive="true" name="AccountId"/>
+         </conditions>
+         <actions/>
+      </model>
+      <model id="NewAccount" limit="1" query="false" createrowifnonefound="false" adapter="" type="" sobject="Account">
+         <fields>
+            <field id="Name"/>
+            <field id="Description"/>
+            <field id="Phone"/>
+         </fields>
+         <conditions/>
+         <actions/>
+      </model>
+   </models>
+   <components>
+      <pagetitle model="AccountList" uniqueid="sk-1CJhAD-215">
+         <maintitle>{{Model.id}} ({{$Model.AccountList.data.length}})</maintitle>
+         <subtitle>
+            <template>{{Model.label}}</template>
+         </subtitle>
+         <actions/>
+      </pagetitle>
+      <skootable showconditions="true" showsavecancel="true" showerrorsinline="true" searchmethod="server" searchbox="true" showexportbuttons="true" pagesize="10" createrecords="true" model="AccountList" buttonposition="" mode="read" uniqueid="sk-1CH90s-109">
+         <fields>
+            <field id="CreatedDate" valuehalign="" type="" allowordering="true"/>
+            <field id="Name"/>
+            <field id="CreatedBy.Name" valuehalign="" type="" allowordering="true"/>
+            <field id="Phone"/>
+            <field id="Contacts" type="CHILDREL" limit="100" valuehalign="" readonly="true" allowhtml="true">
+               <label>Contacts</label>
+               <template>{{Id}} / {{FirstName}}  {{LastName}}&lt;br&gt;</template>
+            </field>
+         </fields>
+         <rowactions>
+            <action type="edit"/>
+            <action type="delete"/>
+            <action type="drawer" label="See related contacts" icon="sk-icon-contact">
+               <drawer title="Drawer Area" width="90%" closehandle="true">
+                  <components>
+                     <skootable showconditions="true" showsavecancel="false" showerrorsinline="true" searchmethod="server" searchbox="true" showexportbuttons="false" pagesize="10" createrecords="false" model="Contact" buttonposition="" mode="readonly" uniqueid="sk-1COovj-316" emptysearchbehavior="query">
+                        <fields>
+                           <field id="AccountId" valuehalign="" type="" optionsource="">
+                              <searchfields/>
+                              <filters/>
+                           </field>
+                           <field id="FirstName"/>
+                           <field id="LastName" valuehalign="" type=""/>
+                           <field id="Birthdate"/>
+                           <field id="Email"/>
+                        </fields>
+                        <rowactions/>
+                        <massactions usefirstitemasdefault="true"/>
+                        <views>
+                           <view type="standard"/>
+                        </views>
+                        <conditions>
+                           <condition type="contextrow" field="AccountId" mergefield="Id" operator="="/>
+                        </conditions>
+                        <searchfields/>
+                        <renderconditions logictype="and"/>
+                     </skootable>
+                  </components>
+                  <beforeload>
+                     <action type="setCondition" model="Contact" condition="AccountId" value="{{Id}}"/>
+                     <action type="requeryModel" model="Contact" behavior="loadmore"/>
+                  </beforeload>
+               </drawer>
+            </action>
+            <action type="redirect" label="Raw edit in page" icon="sk-icon-magic" window="blank" url="/{{Id}}/e"/>
+            <action type="redirect" window="self" label="Details ..." icon="sk-icon-table-edit" url="/apex/UI?id={{Id}}&amp;sfdc.override=1&amp;actiontype=View&amp;objecttype=Account">
+               <renderconditions logictype="and"/>
+            </action>
+         </rowactions>
+         <massactions usefirstitemasdefault="true">
+            <action type="massupdate"/>
+            <action type="massdelete"/>
+         </massactions>
+         <views>
+            <view type="standard"/>
+         </views>
+         <actions defaultlabel="Global Actions" defaulticon="sk-icon-magic" usefirstitemasdefault="true">
+            <action type="redirect" label="Import accounts" icon="sk-icon-import" window="self" url="/apex/skuid__Import?obj=Account"/>
+            <action type="redirect" label="New via redirect" icon="sk-icon-add" window="blank" url="/{{Model.KeyPrefix}}/e"/>
+            <action type="multi" label="New" icon="sk-icon-add">
+               <actions>
+                  <action type="emptyModelData">
+                     <models>
+                        <model>NewAccount</model>
+                     </models>
+                  </action>
+                  <action type="createRow" model="NewAccount" appendorprepend="prepend" defaultmodefornewitems="edit"/>
+                  <action type="showPopup">
+                     <popup title="New Popup" width="90%">
+                        <components>
+                           <pagetitle model="NewAccount" uniqueid="sk-1CXnix-180">
+                              <maintitle>
+                                 <template>{{Name}}</template>
+                              </maintitle>
+                              <subtitle>
+                                 <template>{{Model.label}}</template>
+                              </subtitle>
+                              <actions>
+                                 <action type="multi" label="Save" window="self" icon="sk-icon-save">
+                                    <hotkeys>
+                                       <hotkey modifiers="meta" key="s"/>
+                                    </hotkeys>
+                                    <actions>
+                                       <action type="save">
+                                          <models>
+                                             <model>NewAccount</model>
+                                          </models>
+                                          <onerroractions>
+                                             <action type="blockUI" message="There was an error" timeout="3000"/>
+                                          </onerroractions>
+                                       </action>
+                                       <action type="requeryModel" model="AccountList" behavior="standard"/>
+                                       <action type="closeTopmostPopup"/>
+                                    </actions>
+                                 </action>
+                                 <action type="cancel" label="Cancel" window="self" icon="sk-icon-cancel"/>
+                              </actions>
+                              <renderconditions logictype="and"/>
+                           </pagetitle>
+                           <basicfieldeditor showheader="true" showsavecancel="false" showerrorsinline="true" model="NewAccount" buttonposition="" uniqueid="sk-1CX_5j-189" mode="read">
+                              <columns>
+                                 <column width="100%">
+                                    <sections>
+                                       <section title="Section A" collapsible="no" showheader="false">
+                                          <fields>
+                                             <field id="Name"/>
+                                             <field id="Phone"/>
+                                             <field id="Description"/>
+                                          </fields>
+                                       </section>
+                                    </sections>
+                                 </column>
+                              </columns>
+                           </basicfieldeditor>
+                        </components>
+                     </popup>
+                  </action>
+               </actions>
+            </action>
+         </actions>
+         <exportproperties usetablecolumns="true"/>
+         <filters>
+            <filter type="select" filteroffoptionlabel="filter..." createfilteroffoption="true" affectcookies="true" autocompthreshold="25" conditionsource="auto" labelmode="no" conditionfield="Type"/>
+         </filters>
+      </skootable>
+      <grid uniqueid="sk-1CWK2T-131">
+         <divisions>
+            <division behavior="flex" minwidth="100px" ratio="1">
+               <components/>
+            </division>
+         </divisions>
+         <styles>
+            <styleitem type="background" bgtype="none"/>
+         </styles>
+      </grid>
+   </components>
+   <resources>
+      <labels/>
+      <javascript/>
+      <css/>
+   </resources>
+   <styles>
+      <styleitem type="background" bgtype="none"/>
+   </styles>
+</skuidpage>

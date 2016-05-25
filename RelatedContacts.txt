@@ -1,0 +1,43 @@
+<skuidpage unsavedchangeswarning="yes" personalizationmode="server" showsidebar="true" showheader="true" tabtooverride="Contact">
+   <models>
+      <model id="Contact" limit="100" query="true" createrowifnonefound="false" sobject="Contact" adapter="" type="">
+         <fields>
+            <field id="FirstName"/>
+            <field id="LastName"/>
+            <field id="CreatedDate"/>
+         </fields>
+         <conditions>
+            <condition type="param" value="id" field="AccountId" operator="=" enclosevalueinquotes="true" novaluebehavior="" state=""/>
+         </conditions>
+         <actions/>
+      </model>
+   </models>
+   <components>
+      <skootable showconditions="true" showsavecancel="true" searchmethod="server" searchbox="true" showexportbuttons="false" pagesize="10" createrecords="true" model="Contact" mode="read" uniqueid="sk-1DOtdR-64">
+         <fields>
+            <field id="FirstName" allowordering="true"/>
+            <field id="LastName" allowordering="true"/>
+            <field id="CreatedDate" allowordering="true"/>
+         </fields>
+         <rowactions>
+            <action type="edit"/>
+            <action type="delete"/>
+         </rowactions>
+         <massactions usefirstitemasdefault="true">
+            <action type="massupdate"/>
+            <action type="massdelete"/>
+         </massactions>
+         <views>
+            <view type="standard"/>
+         </views>
+      </skootable>
+   </components>
+   <resources>
+      <labels/>
+      <css/>
+      <javascript/>
+   </resources>
+   <styles>
+      <styleitem type="background" bgtype="none"/>
+   </styles>
+</skuidpage>
